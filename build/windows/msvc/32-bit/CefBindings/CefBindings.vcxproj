@@ -21,6 +21,7 @@
     <ClCompile Include="..\..\..\..\..\src\src\V8_handler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\rc\resource.h" />
     <ClInclude Include="..\..\..\..\..\src\include\cef_bindings.h" />
     <ClInclude Include="..\..\..\..\..\src\include\client_handler.h" />
     <ClInclude Include="..\..\..\..\..\src\include\my_app.h" />
@@ -30,11 +31,14 @@
     <ClInclude Include="..\..\..\..\..\src\include\V8_handler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\..\..\rc\CefBindings.rc" />
+    <ResourceCompile Include="..\..\..\..\..\rc\cef_bindings.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\rc\CefBindings.ico" />
     <Image Include="..\..\..\..\..\rc\small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\rc\web\index.html" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0240E0DA-1660-4061-BB8A-6332CB924BAF}</ProjectGuid>

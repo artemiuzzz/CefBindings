@@ -4,5 +4,6 @@
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\..\..\..\..\thirdparty\cef\Debug;$(PATH)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)..\..\..\..\..\bin\windows\msvc\Win32\Debug</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommandArguments>--url="d:\Projects\CefBindings\rc\web\index.html"</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

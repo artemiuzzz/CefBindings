@@ -18,6 +18,10 @@ bool V8Handler::Execute( const CefString& name,
 	CefRefPtr<CefV8Value>& retval,
 	CefString& exception )
 {
-
+	if( name == "cppmethod" )
+	{
+		retval = CefV8Value::CreateString( "My Value!" );
+		return true;
+	}
 	return false;
 }

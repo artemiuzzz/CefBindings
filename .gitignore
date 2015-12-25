@@ -10,3 +10,4 @@
 *.sdf
 *.suo
 /build/windows/msvc/ipch
+*.aps
