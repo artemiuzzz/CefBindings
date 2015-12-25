@@ -28,7 +28,7 @@ int APIENTRY _tWinMain( _In_ HINSTANCE hInstance,
 
 	// Populate this structure to customize CEF behavior.
 	CefSettings settings;
-	//settings.single_process = true;
+	settings.single_process = true;
 
 	// Initialize CEF in the main process.
 	CefInitialize( main_args, settings, app.get(), nullptr );

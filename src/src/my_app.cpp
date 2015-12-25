@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "my_app.h"
 #include "client_handler.h"
+#include "V8_handler.h"
 
 
 MyApp::MyApp()
@@ -40,4 +41,18 @@ void MyApp::OnContextInitialized()
 	// Create the first browser window.
 	CefBrowserHost::CreateBrowser( window_info, handler.get(), url,
 		browser_settings, NULL );
+}
+
+
+void MyApp::OnContextCreated( CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	CefRefPtr<CefV8Context> context )
+{
+	CefRefPtr<CefV8Value> object = context->GetGlobal();
+
+	CefRefPtr<CefV8Handler> handler = new V8Handler();
+
+	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "cppmethod", handler );
+
+	object->SetValue( "cppmethod", method, V8_PROPERTY_ATTRIBUTE_NONE );
 }

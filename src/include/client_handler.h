@@ -4,7 +4,7 @@
 
 class ClientHandler :
 	public CefClient,
-	public CefLifeSpanHandler
+	public CefLifeSpanHandler	
 {
 public:
 	ClientHandler();

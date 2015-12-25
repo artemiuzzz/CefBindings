@@ -18,6 +18,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\src\src\V8_handler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\src\include\cef_bindings.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="..\..\..\..\..\src\include\resource.h" />
     <ClInclude Include="..\..\..\..\..\src\include\stdafx.h" />
     <ClInclude Include="..\..\..\..\..\src\include\targetver.h" />
+    <ClInclude Include="..\..\..\..\..\src\include\V8_handler.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\..\..\rc\CefBindings.rc" />
