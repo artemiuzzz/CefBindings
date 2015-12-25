@@ -1,0 +1,12 @@
+/bin
+
+/thirdparty/cef/*
+!/thirdparty/cef/README.txt
+!/thirdparty/cef/cef.sln
+!/thirdparty/cef/libcef_dll/libcef_dll_wrapper.vcxproj
+/build/windows/msvc/32-bit/CefBindings/Debug
+/build/windows/msvc/32-bit/CefBindings/Release
+*.opensdf
+*.sdf
+*.suo
+/build/windows/msvc/ipch
