@@ -20,7 +20,7 @@ bool V8Handler::Execute( const CefString& name,
 {
 	if( name == "cppmethod" )
 	{
-		retval = CefV8Value::CreateString( "My Value!" );
+		retval = CefV8Value::CreateString( "Hello from C++ !" );
 		return true;
 	}
 	return false;
