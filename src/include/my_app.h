@@ -16,7 +16,7 @@ public:
 	{
 		return this;
 	}
-
+	
 	virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE
 	{
 		return this;
@@ -25,6 +25,7 @@ public:
 	// CefBrowserProcessHandler methods:
 	virtual void OnContextInitialized() OVERRIDE;
 
+	// CefRenderProcessHandler methods:
 	virtual void OnContextCreated( CefRefPtr<CefBrowser> browser,
 		CefRefPtr<CefFrame> frame,
 		CefRefPtr<CefV8Context> context ) OVERRIDE;

@@ -4,6 +4,9 @@
 #include "V8_handler.h"
 
 
+CefRefPtr<ClientHandler> g_handler;
+
+
 MyApp::MyApp()
 {
 }
@@ -22,8 +25,8 @@ void MyApp::OnContextInitialized()
 	window_info.SetAsPopup( NULL, "CefBindings" );
 #endif
 
-	// SimpleHandler implements browser-level callbacks.
-	CefRefPtr<ClientHandler> handler( new ClientHandler() );
+	// implements browser-level callbacks.
+	g_handler = new ClientHandler();
 
 	// Specify CEF browser settings here.
 	CefBrowserSettings browser_settings;
@@ -39,7 +42,7 @@ void MyApp::OnContextInitialized()
 		url = "http://www.google.com";
 
 	// Create the first browser window.
-	CefBrowserHost::CreateBrowser( window_info, handler.get(), url,
+	CefBrowserHost::CreateBrowser( window_info, g_handler.get(), url,
 		browser_settings, NULL );
 }
 
@@ -48,11 +51,17 @@ void MyApp::OnContextCreated( CefRefPtr<CefBrowser> browser,
 	CefRefPtr<CefFrame> frame,
 	CefRefPtr<CefV8Context> context )
 {
+	CEF_REQUIRE_RENDERER_THREAD();
+
 	CefRefPtr<CefV8Value> object = context->GetGlobal();
+	CefRefPtr<CefV8Handler> v8handler = new V8Handler();
 
-	CefRefPtr<CefV8Handler> handler = new V8Handler();
-
-	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "cppmethod", handler );
-
+	// cpp method from js
+	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "cppmethod", v8handler );
 	object->SetValue( "cppmethod", method, V8_PROPERTY_ATTRIBUTE_NONE );
+   
+	// JS method from cpp
+	object->SetValue( "register",
+	CefV8Value::CreateFunction( "register", v8handler ),
+	V8_PROPERTY_ATTRIBUTE_NONE );
 }
