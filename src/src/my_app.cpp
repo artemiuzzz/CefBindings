@@ -54,14 +54,38 @@ void MyApp::OnContextCreated( CefRefPtr<CefBrowser> browser,
 	CEF_REQUIRE_RENDERER_THREAD();
 
 	CefRefPtr<CefV8Value> object = context->GetGlobal();
-	CefRefPtr<CefV8Handler> v8handler = new V8Handler();
+	m_v8handler = new V8Handler();
 
 	// cpp method from js
-	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "cppmethod", v8handler );
+	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "cppmethod", m_v8handler );
 	object->SetValue( "cppmethod", method, V8_PROPERTY_ATTRIBUTE_NONE );
    
 	// JS method from cpp
 	object->SetValue( "register",
-	CefV8Value::CreateFunction( "register", v8handler ),
+		CefV8Value::CreateFunction( "register", m_v8handler ),
 	V8_PROPERTY_ATTRIBUTE_NONE );
+}
+
+
+bool MyApp::OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
+	CefProcessId source_process,
+	CefRefPtr<CefProcessMessage> message )
+{
+	CEF_REQUIRE_RENDERER_THREAD();
+
+	if( message->GetName() == "execute_js" )
+	{
+		if( m_v8handler.get() && m_v8handler->m_callbackContext.get() && m_v8handler->m_callbackFunction.get() )
+		{
+			CefV8ValueList args;
+			if( !m_v8handler->m_callbackFunction.get()->ExecuteFunctionWithContext( m_v8handler->m_callbackContext.get(), NULL, args ) )
+			{
+				MessageBox(NULL, L"Error executing js method", L"Caption", 0);
+			}
+		}
+
+		return true;
+	}
+
+	return false;
 }

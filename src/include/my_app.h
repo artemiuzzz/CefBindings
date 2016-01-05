@@ -3,6 +3,9 @@
 #include "include/cef_render_process_handler.h"
 
 
+class V8Handler;
+
+
 class MyApp :
 	public CefApp,
 	public CefBrowserProcessHandler,
@@ -30,7 +33,15 @@ public:
 		CefRefPtr<CefFrame> frame,
 		CefRefPtr<CefV8Context> context ) OVERRIDE;
 
+	virtual bool OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
+		CefProcessId source_process,
+		CefRefPtr<CefProcessMessage> message ) OVERRIDE;
+
 private:
+
+	// only in render process
+	CefRefPtr<V8Handler> m_v8handler;
+
 	IMPLEMENT_REFCOUNTING( MyApp );
 };
 

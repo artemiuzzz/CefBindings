@@ -1,9 +1,5 @@
 #include "stdafx.h"
 #include "V8_handler.h"
-#include "client_handler.h"
-
-
-extern CefRefPtr<ClientHandler> g_handler;
 
 
 V8Handler::V8Handler()
@@ -38,13 +34,9 @@ bool V8Handler::Execute( const CefString& name,
 		LOG( INFO ) << "register";
 		if( arguments.size() == 1 && arguments[0]->IsFunction() )
 		{
-			auto clientHandler = g_handler.get();
-			if( clientHandler )
-			{
-				clientHandler->getCallbackFunction() = arguments[0];
-				clientHandler->getCallbackContext() = CefV8Context::GetCurrentContext();
-				return true;
-			}
+			m_callbackFunction = arguments[0];
+			m_callbackContext = CefV8Context::GetCurrentContext();
+			return true;
 		}
 	}
 

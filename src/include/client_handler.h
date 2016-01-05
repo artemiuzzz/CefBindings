@@ -26,21 +26,7 @@ public:
 		CefEventHandle os_event ) OVERRIDE;
 
 
-	CefRefPtr<CefV8Value>& getCallbackFunction()
-	{
-		return m_callbackFunction;
-	}
-
-	CefRefPtr<CefV8Context>& getCallbackContext()
-	{
-		return m_callbackContext;
-	}
-
 private:
-
-	CefRefPtr<CefV8Value> m_callbackFunction;
-	CefRefPtr<CefV8Context> m_callbackContext;
-
 	IMPLEMENT_REFCOUNTING( ClientHandler );
 };
 

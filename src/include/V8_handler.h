@@ -14,6 +14,9 @@ public:
 		CefRefPtr<CefV8Value>& retval,
 		CefString& exception );
 
+	CefRefPtr<CefV8Value> m_callbackFunction;
+	CefRefPtr<CefV8Context> m_callbackContext;
+
 private:
 	IMPLEMENT_REFCOUNTING( V8Handler );
 };

@@ -19,17 +19,15 @@ bool ClientHandler::OnKeyEvent( CefRefPtr<CefBrowser> browser,
 	const CefKeyEvent& event,
 	CefEventHandle os_event )
 {
+	CEF_REQUIRE_UI_THREAD();
+
 	if( event.character == 'J' )
 	{
-		if( m_callbackFunction.get() && m_callbackContext.get() )
-		{
-			CefV8ValueList args /*= { CefV8Value::CreateObject(NULL) }*/;
-			if( m_callbackFunction.get()->ExecuteFunctionWithContext( m_callbackContext, NULL, args ) )
-			//if( m_callbackFunction.get()->ExecuteFunction( NULL, args ) )
-			{
-				MessageBox(NULL, L"Success", L"Caption", 0);
-			}
-		}
+		// send message to renderer thread
+		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create( "execute_js" );
+		CefRefPtr<CefListValue> args = msg->GetArgumentList();
+
+		browser->SendProcessMessage( PID_RENDERER, msg );
 	}
 	return false;
 }
