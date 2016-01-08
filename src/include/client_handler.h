@@ -20,10 +20,11 @@ public:
 		return this;
 	}
 
+	virtual bool OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
+		CefProcessId source_process,
+		CefRefPtr<CefProcessMessage> message ) OVERRIDE;
+
 	virtual void OnBeforeClose( CefRefPtr<CefBrowser> browser ) OVERRIDE;
-	virtual bool OnKeyEvent( CefRefPtr<CefBrowser> browser,
-		const CefKeyEvent& event,
-		CefEventHandle os_event ) OVERRIDE;
 
 
 private:

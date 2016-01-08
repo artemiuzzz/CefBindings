@@ -12,15 +12,23 @@ Searcher::~Searcher()
 }
 
 
-void Searcher::search( const std::wstring& keyword, bool inFileName, bool inFolderName )
+void Searcher::Search( const std::wstring& keyword, bool inFileName, bool inFolderName )
 {
 	m_keyword = keyword;
 	m_inFileName = inFileName;
 	m_inFolderName = inFolderName;
+
+	PWSTR pathToDocs;
+	HRESULT hr = ::SHGetKnownFolderPath( FOLDERID_Documents, 0, NULL, &pathToDocs );
+	if( hr == S_OK )
+	{
+		SearchInFolder( pathToDocs );
+		CoTaskMemFree( pathToDocs );
+	}
 }
 
 
-bool Searcher::searchInFolder( const std::wstring& folder )
+bool Searcher::SearchInFolder( const std::wstring& folder )
 {
 	std::wstring searchPath( folder );
 	searchPath.append( _T( "\\*" ) );
@@ -46,7 +54,7 @@ bool Searcher::searchInFolder( const std::wstring& folder )
 		{
 			// go deeper
 			std::wstring subDir( folder + ffd.cFileName );
-			searchInFolder( subDir );
+			SearchInFolder( subDir );
 		}
 
 		if( (isFolder && m_inFolderName) || (!isFolder && m_inFileName) )
@@ -91,7 +99,8 @@ bool Searcher::searchInFolder( const std::wstring& folder )
 						itemInfo.type = fileInfo.szTypeName;
 				}
 
-				m_results.push_back( itemInfo );
+				OnItemfound( itemInfo );
+				//m_results.push_back( itemInfo );
 			}
 	} while( FindNextFile( hFind, &ffd ) != 0 );
 

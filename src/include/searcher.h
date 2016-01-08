@@ -1,4 +1,6 @@
 #pragma once
+#include <functional>
+
 
 struct SearchItem
 {
@@ -16,15 +18,16 @@ public:
 	Searcher();
 	~Searcher();
 
-	void search( const std::wstring& keyword, bool inFileName, bool inFolderName );
+	void Search( const std::wstring& keyword, bool inFileName, bool inFolderName );
+	std::function<void( SearchItem )> OnItemfound;
 
 private:
-	bool searchInFolder( const std::wstring& keyword );
+	bool SearchInFolder( const std::wstring& keyword );
 
 	std::wstring m_keyword;
 	bool m_inFileName;
 	bool m_inFolderName;
 
-	std::list<SearchItem> m_results;
+	//std::list<SearchItem> m_results;
 };
 
