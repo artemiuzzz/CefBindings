@@ -72,10 +72,13 @@ void MyApp::OnContextCreated( CefRefPtr<CefBrowser> browser,
 	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "searchInDocs", m_v8handler );
 	object->SetValue( "searchInDocs", method, V8_PROPERTY_ATTRIBUTE_READONLY );
    
-	// JS method from cpp
-	//object->SetValue( "register",
-	//	CefV8Value::CreateFunction( "register", m_v8handler ),
-	//V8_PROPERTY_ATTRIBUTE_NONE );
+	// create JS methods for register methods to call from cpp
+	object->SetValue( "registerAddMethod",
+		CefV8Value::CreateFunction( "registerAddMethod", m_v8handler ),
+		V8_PROPERTY_ATTRIBUTE_NONE );
+	object->SetValue( "registerClearMethod",
+		CefV8Value::CreateFunction( "registerClearMethod", m_v8handler ),
+		V8_PROPERTY_ATTRIBUTE_NONE );
 }
 
 
@@ -88,12 +91,25 @@ bool MyApp::OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
 	// recieved message that item was found
 	if( message->GetName() == "item_found_msg" )
 	{
-		auto args = message->GetArgumentList().get();
+		auto args = message->GetArgumentList();
 		if( args && ( args->GetSize() >= 3 ) )
 		{
-			CefString name = args->GetString( 0 );
-			CefString size = args->GetString( 1 );
-			CefString path = args->GetString( 2 );
+			CefString itemName = args->GetString( 0 );
+			CefString itemSize = args->GetString( 1 );
+			CefString itemPath = args->GetString( 2 );
+
+			auto addMethod = m_v8handler->m_addItemMethod;
+			if( addMethod )
+			{
+				CefV8ValueList methodArgs;
+				methodArgs.push_back( CefV8Value::CreateString( itemName ) );
+				methodArgs.push_back( CefV8Value::CreateString( itemSize ) );
+				methodArgs.push_back( CefV8Value::CreateString( itemPath ) );
+				if( !addMethod->ExecuteFunctionWithContext( m_v8handler->m_callbackContext, nullptr, methodArgs ) )
+				{
+					LOG( ERROR ) << "Error occurred when executing js function";
+				}
+			}
 		}
 		return true;
 	}

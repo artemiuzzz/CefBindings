@@ -30,17 +30,27 @@ bool V8Handler::Execute( const CefString& name,
 		return true;
 	}
 
-	//// realization of register method
-	//if( name == "register" )
-	//{
-	//	LOG( INFO ) << "register";
-	//	if( arguments.size() == 1 && arguments[0]->IsFunction() )
-	//	{
-	//		m_callbackFunction = arguments[0];
-	//		m_callbackContext = CefV8Context::GetCurrentContext();
-	//		return true;
-	//	}
-	//}
+	// realization of register methods
+	if( name == "registerAddMethod" )
+	{
+		if( arguments.size() == 1 && arguments[0]->IsFunction() )
+		{
+			m_addItemMethod = arguments[0];
+			if( !m_callbackContext.get() )
+				m_callbackContext = CefV8Context::GetCurrentContext();
+			return true;
+		}
+	}
+	else if( name == "registerClearMethod" )
+	{
+		if( arguments.size() == 1 && arguments[0]->IsFunction() )
+		{
+			m_clearListMethod = arguments[0];
+			if( !m_callbackContext.get() )
+				m_callbackContext = CefV8Context::GetCurrentContext();
+			return true;
+		}
+	}
 
 	return false;
 }

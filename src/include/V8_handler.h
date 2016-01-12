@@ -15,7 +15,13 @@ public:
 		CefRefPtr<CefV8Value>& retval,
 		CefString& exception );
 
+	// callback when search button is clicked
 	std::function<void( CefString )> onSearchButton;
+
+	// js callbacks
+	CefRefPtr<CefV8Value> m_addItemMethod;
+	CefRefPtr<CefV8Value> m_clearListMethod;
+	CefRefPtr<CefV8Context> m_callbackContext;
 
 private:
 
