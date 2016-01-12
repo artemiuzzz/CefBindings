@@ -4,17 +4,29 @@
 <TITLE>Cef bindings</TITLE>
 
 </HEAD>
-<BODY>
-	<input id="Button1" type="button" value="Call cpp method" onclick="TextField.value = window.cppmethod();" />
-	<input id="TextField" type="text" />
+<BODY>	
+	<input id="Keyword" type="text" />
+    <input id="Search In Docs" type="button" value="Call cpp method" onclick="window.searchInDocs(Keyword.value);" />
+
+    <ol id="FoundList">
+
+    </ol>
 </BODY>
 </HTML>
 
 
 <script type="text/javascript">
-	function javaScriptMethod() {
-		alert('Hello from JS!');
-	}
+    function addItem(name, size, path)
+    {
+        var list = document.getElementById("FoundList");        
+        list.appendChild(document.createTextNode(name));
+    }
 
-	window.register(javaScriptMethod);
+    function clearFoundList()
+    {
+        var list = document.getElementById("FoundList");
+        while (list.firstChild) {
+            list.removeChild(list.firstChild);
+        }
+    }
 </script>

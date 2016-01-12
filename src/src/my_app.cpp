@@ -53,17 +53,29 @@ void MyApp::OnContextCreated( CefRefPtr<CefBrowser> browser,
 {
 	CEF_REQUIRE_RENDERER_THREAD();
 
+	//m_browser = browser;
+
 	CefRefPtr<CefV8Value> object = context->GetGlobal();
 	m_v8handler = new V8Handler();
+	m_v8handler->onSearchButton = [browser]( CefString keyword )
+	{
+		
+		// send message to browser thread
+		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create( "js_search_button_pressed" );
+		CefRefPtr<CefListValue> args = msg->GetArgumentList();
+		args->SetString( 0, keyword );
+
+		browser->SendProcessMessage( PID_BROWSER, msg );
+	};
 
 	// cpp method from js
-	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "cppmethod", m_v8handler );
-	object->SetValue( "cppmethod", method, V8_PROPERTY_ATTRIBUTE_NONE );
+	CefRefPtr<CefV8Value> method = CefV8Value::CreateFunction( "searchInDocs", m_v8handler );
+	object->SetValue( "searchInDocs", method, V8_PROPERTY_ATTRIBUTE_READONLY );
    
 	// JS method from cpp
-	object->SetValue( "register",
-		CefV8Value::CreateFunction( "register", m_v8handler ),
-	V8_PROPERTY_ATTRIBUTE_NONE );
+	//object->SetValue( "register",
+	//	CefV8Value::CreateFunction( "register", m_v8handler ),
+	//V8_PROPERTY_ATTRIBUTE_NONE );
 }
 
 
@@ -73,19 +85,22 @@ bool MyApp::OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
 {
 	CEF_REQUIRE_RENDERER_THREAD();
 
-	if( message->GetName() == "execute_js" )
+	// recieved message that item was found
+	if( message->GetName() == "item_found_msg" )
 	{
-		if( m_v8handler.get() && m_v8handler->m_callbackContext.get() && m_v8handler->m_callbackFunction.get() )
+		auto args = message->GetArgumentList().get();
+		if( args && ( args->GetSize() >= 3 ) )
 		{
-			CefV8ValueList args;
-			if( !m_v8handler->m_callbackFunction.get()->ExecuteFunctionWithContext( m_v8handler->m_callbackContext.get(), NULL, args ) )
-			{
-				MessageBox(NULL, L"Error executing js method", L"Caption", 0);
-			}
+			CefString name = args->GetString( 0 );
+			CefString size = args->GetString( 1 );
+			CefString path = args->GetString( 2 );
 		}
-
 		return true;
 	}
 
 	return false;
 }
+
+
+void OnSearch( const CefString& keyword )
+{}

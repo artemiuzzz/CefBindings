@@ -39,7 +39,10 @@ bool Searcher::SearchInFolder( const std::wstring& folder )
 
 	if( INVALID_HANDLE_VALUE == hFind )
 	{
-		//ATLTRACE( _T( "Could not access \"%s\"\n" ), searchPath );
+		std::wstring error( _T( "Could not access " ) );
+		error.append( searchPath );
+		CefStringUTF16 w( error );
+		LOG( ERROR ) << w.ToString().c_str();
 		return false;
 	}
 
@@ -108,7 +111,7 @@ bool Searcher::SearchInFolder( const std::wstring& folder )
 	FindClose( hFind );
 	if( dwError != ERROR_NO_MORE_FILES )
 	{
-		//ATLASSERT( false );
+		DCHECK( false );
 		return false;
 	}
 
