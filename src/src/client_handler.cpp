@@ -16,12 +16,13 @@ bool ClientHandler::OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
 
 	if( message->GetName() == "js_search_button_pressed" )
 	{
+		// clear list and start searching
 		auto args = message->GetArgumentList();
 		if( args->GetSize() > 0 )
 		{
 			CefString keyword = args->GetString( 0 );
 
-			auto searcher = std::make_shared<Searcher>();
+			std::unique_ptr<Searcher> searcher( new Searcher() );
 			searcher->OnItemfound = [browser]( SearchItem searchItem )
 				{
 					// send message to renderer thread

@@ -6,11 +6,10 @@
 </HEAD>
 <BODY>	
 	<input id="Keyword" type="text" />
-    <input id="Search In Docs" type="button" value="Call cpp method" onclick="window.searchInDocs(Keyword.value);" />
-
-    <ol id="SearchList">
-
-    </ol>
+    <input id="SearchInDocs" type="button" value="SearchInDocs" onclick="clearSearchList(); window.searchInDocs(Keyword.value);" />
+    
+    <table style="width:100%;" id="SearchTable">
+    </table>
 </BODY>
 </HTML>
 
@@ -18,15 +17,18 @@
 <script type="text/javascript">
     function addItem(name, size, path)
     {
-        var list = document.getElementById("SearchList");
-        list.appendChild(document.createTextNode(name));
+        var table = document.getElementById("SearchTable");
+        var row = table.insertRow(table.rows.length);
+        row.insertCell(0).innerHTML = name;
+        row.insertCell(1).innerHTML = size;
+        row.insertCell(2).innerHTML = path;
     }
 
     function clearSearchList()
     {
-        var list = document.getElementById("SearchList");
-        while (list.firstChild) {
-            list.removeChild(list.firstChild);
+        var table = document.getElementById("SearchTable");        
+        while (table.rows.length) {
+            table.deleteRow(table.rows.length - 1);
         }
     }
 
