@@ -22,7 +22,8 @@ public:
 	std::function<void( SearchItem )> OnItemfound;
 
 private:
-	bool SearchInFolder( const std::wstring& keyword );
+	bool SearchInFolderRecursive( const std::wstring& folder );
+	bool SearchMatches( const std::wstring& folder );
 
 	std::wstring m_keyword;
 	bool m_inFileName;
