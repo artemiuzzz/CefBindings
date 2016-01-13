@@ -41,16 +41,6 @@ bool V8Handler::Execute( const CefString& name,
 			return true;
 		}
 	}
-	else if( name == "registerClearMethod" )
-	{
-		if( arguments.size() == 1 && arguments[0]->IsFunction() )
-		{
-			m_clearListMethod = arguments[0];
-			if( !m_callbackContext.get() )
-				m_callbackContext = CefV8Context::GetCurrentContext();
-			return true;
-		}
-	}
 
 	return false;
 }

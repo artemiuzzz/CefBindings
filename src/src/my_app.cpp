@@ -76,9 +76,6 @@ void MyApp::OnContextCreated( CefRefPtr<CefBrowser> browser,
 	object->SetValue( "registerAddMethod",
 		CefV8Value::CreateFunction( "registerAddMethod", m_v8handler ),
 		V8_PROPERTY_ATTRIBUTE_NONE );
-	object->SetValue( "registerClearMethod",
-		CefV8Value::CreateFunction( "registerClearMethod", m_v8handler ),
-		V8_PROPERTY_ATTRIBUTE_NONE );
 }
 
 
