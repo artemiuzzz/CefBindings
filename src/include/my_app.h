@@ -39,8 +39,6 @@ public:
 
 private:
 
-	void OnSearch( const CefString& keyword );
-
 	// only in render process
 	CefRefPtr<V8Handler> m_v8handler;
 

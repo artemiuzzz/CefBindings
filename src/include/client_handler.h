@@ -4,18 +4,12 @@
 
 class ClientHandler :
 	public CefClient,
-	public CefLifeSpanHandler,
-	public CefKeyboardHandler
+	public CefLifeSpanHandler
 {
 public:
 	ClientHandler();
 	
 	virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE
-	{
-		return this;
-	}
-
-	virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE
 	{
 		return this;
 	}

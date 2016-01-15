@@ -113,7 +113,3 @@ bool MyApp::OnProcessMessageReceived( CefRefPtr<CefBrowser> browser,
 
 	return false;
 }
-
-
-void OnSearch( const CefString& keyword )
-{}

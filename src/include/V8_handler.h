@@ -20,7 +20,6 @@ public:
 
 	// js callbacks
 	CefRefPtr<CefV8Value> m_addItemMethod;
-	CefRefPtr<CefV8Value> m_clearListMethod;
 	CefRefPtr<CefV8Context> m_callbackContext;
 
 private:
