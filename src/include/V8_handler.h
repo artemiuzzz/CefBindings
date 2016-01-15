@@ -1,5 +1,6 @@
 #pragma once
 #include "include/cef_v8.h"
+#include <functional>
 
 
 class V8Handler : public CefV8Handler
@@ -14,10 +15,16 @@ public:
 		CefRefPtr<CefV8Value>& retval,
 		CefString& exception );
 
-	CefRefPtr<CefV8Value> m_callbackFunction;
+	// callback when search button is clicked
+	std::function<void( CefString )> onSearchButton;
+
+	// js callbacks
+	CefRefPtr<CefV8Value> m_addItemMethod;
+	CefRefPtr<CefV8Value> m_clearListMethod;
 	CefRefPtr<CefV8Context> m_callbackContext;
 
 private:
+
 	IMPLEMENT_REFCOUNTING( V8Handler );
 };
 
