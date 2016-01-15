@@ -1,22 +1,50 @@
-<HTML>
-<HEAD>
-<META NAME="GENERATOR" Content="Microsoft Visual Studio">
-<TITLE>Cef bindings</TITLE>
+<html>
+<head>
+    <meta name="GENERATOR" content="Microsoft Visual Studio">
+    <title>Cef bindings</title>
+    <style>
 
-</HEAD>
-<BODY>	
-	<input id="Keyword" type="text" />
-    <input id="SearchInDocs" type="button" value="Search In Docs" onclick="clearSearchList(); window.searchInDocs(Keyword.value);" />
-    
-    <table style="width:100%;" id="SearchTable">
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid black;            
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search in 'Documents' folder</h1>
+    <input id="Keyword" type="text" style="font-size: 14pt;"
+           onkeydown="if(event.keyCode == 13) startSearch();" />
+
+    <input id="SearchInDocs" type="button" value="Search In Docs" style="font-size: 14pt;"
+           onclick="startSearch();"/>
+
+    <h1>Results</h1>
+    <table id="SearchTable">
+        <tr style="font-weight: bold; font-size: 16pt;">
+            <td>Name</td>
+            <td>Size</td>
+            <td>Path</td>
+        </tr>
     </table>
-</BODY>
-</HTML>
+</body>
+</html>
 
 
 <script type="text/javascript">
-    function addItem(name, size, path)
-    {
+    function startSearch() {
+        clearSearchList();
+        window.searchInDocs(Keyword.value);
+    }
+
+    function addItem(name, size, path) {
         var table = document.getElementById("SearchTable");
         var row = table.insertRow(table.rows.length);
         row.insertCell(0).innerHTML = name;
@@ -24,11 +52,11 @@
         row.insertCell(2).innerHTML = path;
     }
 
-    function clearSearchList()
-    {
-        var table = document.getElementById("SearchTable");        
-        while (table.rows.length) {
-            table.deleteRow(table.rows.length - 1);
+    function clearSearchList() {
+        var table = document.getElementById("SearchTable");
+        var count = table.rows.length;
+        for (var i = count - 1; i > 0; i-- ) {
+            table.deleteRow(i);
         }
     }
 
